@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import React,{useState} from 'react';
 import './App.css';
+import Input from './input';
+import TodoList from './todolist';
 
 function App() {
+  const [text,newInput] = useState("");
+
+  const onChange = (e) => {
+    newInput(e.target.value);
+  }
+  
+  const nextId = useState(2);
+  const onCreate = () => {
+    const newList = {id:nextId,value:text};
+    setList([...list,newList]);
+    newInput("");
+  }
+
+  const [list,setList] = useState([]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Input onChange={onChange} onCreate={onCreate} text={text}/>
+      <TodoList prop={list}/>
     </div>
   );
 }
