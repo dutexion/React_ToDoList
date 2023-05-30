@@ -34,7 +34,14 @@ function App() {
   }
 
   const onModify = (id,inner) => {
-    setList(list.map((value) => value.id === id ? {...value, value:inner}:value))
+    if(inner !== '')
+    {
+      setList(list.map((value) => value.id === id ? {...value, value:inner}:value))
+    }
+    else
+    {
+      alert("문자를 입력해주세요")
+    }
   }
 
   return (
