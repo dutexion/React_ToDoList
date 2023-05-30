@@ -33,14 +33,14 @@ function App() {
     setList(list.map(value => value.id === id ? {...value, active:!value.active}:value))
   }
 
-  /*const onModify = (id,inner) => {
+  const onModify = (id,inner) => {
     setList(list.map((value) => value.id === id ? {...value, value:inner}:value))
-  }*/
+  }
 
   return (
     <div className="App">
       <Input onChange={onChange} onCreate={onCreate} text={text}/>
-      <TodoList prop={list} onRemove={onRemove} onComplete={onComplete}/>
+      <TodoList prop={list} onRemove={onRemove} onComplete={onComplete} onModify={onModify}/>
     </div>
   );
 }
