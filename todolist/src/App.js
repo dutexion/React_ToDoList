@@ -25,10 +25,14 @@ function App() {
     }
   }
 
+  const onRemove = id => {
+    setList(list.filter(value => value.id !== id));
+  }
+
   return (
     <div className="App">
       <Input onChange={onChange} onCreate={onCreate} text={text}/>
-      <TodoList prop={list}/>
+      <TodoList prop={list} onRemove={onRemove}/>
     </div>
   );
 }
