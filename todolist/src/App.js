@@ -5,19 +5,25 @@ import TodoList from './todolist';
 
 function App() {
   const [text,newInput] = useState("");
+  const [list,setList] = useState([]);
 
   const onChange = (e) => {
     newInput(e.target.value);
   }
   
-  const nextId = useState(2);
+  const nextId = useState(0);
   const onCreate = () => {
-    const newList = {id:nextId,value:text};
-    setList([...list,newList]);
-    newInput("");
+    if(text !== '')
+    {
+      const newList = {id:nextId,value:text};
+      setList([...list,newList]);
+      newInput("");
+    }
+    else
+    {
+      alert("문자를 입력해주세요");
+    }
   }
-
-  const [list,setList] = useState([]);
 
   return (
     <div className="App">
