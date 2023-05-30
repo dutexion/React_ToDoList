@@ -15,7 +15,7 @@ function App() {
   const onCreate = () => {
     if(text !== '')
     {
-      const newList = {id:nextId,value:text};
+      const newList = {id:nextId,value:text,active:false};
       setList([...list,newList]);
       newInput("");
     }
@@ -29,10 +29,18 @@ function App() {
     setList(list.filter(value => value.id !== id));
   }
 
+  const onComplete = id => {
+    setList(list.map(value => value.id === id ? {...value, active:!value.active}:value))
+  }
+
+  /*const onModify = (id,inner) => {
+    setList(list.map((value) => value.id === id ? {...value, value:inner}:value))
+  }*/
+
   return (
     <div className="App">
       <Input onChange={onChange} onCreate={onCreate} text={text}/>
-      <TodoList prop={list} onRemove={onRemove}/>
+      <TodoList prop={list} onRemove={onRemove} onComplete={onComplete}/>
     </div>
   );
 }

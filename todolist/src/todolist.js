@@ -1,22 +1,22 @@
 import React from "react";
 
-function List({props,onRemove}) {
+function List({props,onRemove,onComplete}) {
     return (
         <>
             <div>
-                {props.value}
-                <button>완료하기</button>
-                <button>수정하기</button>
+                <span className={props.active === true ? "complete" : null}>{props.value}</span>
+                <button onClick={() => onComplete(props.id)}>완료하기</button>
+                <button /* onClick={() => onModify(props.id,prompt("수정할 내용을 입력하세요"))}*/ >수정하기</button>
                 <button onClick={() => onRemove(props.id)}>삭제하기</button>
             </div>
         </>
     )
 }
 
-function TodoList({prop,onRemove}) {
+function TodoList({prop,onRemove,onComplete}) {
     return(
         <div>
-            {prop.map((value,index)=>(<List props={value} key={index} onRemove={onRemove}/>))}
+            {prop.map((value,index)=>(<List props={value} key={index} onRemove={onRemove} onComplete={onComplete}/>))}
         </div>
     )
 }
