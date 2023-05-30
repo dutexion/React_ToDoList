@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useRef} from 'react';
 import './App.css';
 import Input from './input';
 import TodoList from './todolist';
@@ -11,13 +11,14 @@ function App() {
     newInput(e.target.value);
   }
   
-  const nextId = useState(0);
+  const nextId = useRef(0);
   const onCreate = () => {
     if(text !== '')
     {
-      const newList = {id:nextId,value:text,active:false};
+      const newList = {id:nextId.current,value:text,active:false};
       setList([...list,newList]);
       newInput("");
+      nextId.current += 1;
     }
     else
     {
