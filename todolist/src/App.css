@@ -1,3 +1,71 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inputDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.input {
+    margin-left: 100px;
+    width: 200px;
+    height: 20px;
+    font-size: 12px;
+    border: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.inputBtn {
+    width: 80px;
+    height: 25px;
+    font-size: 12px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+ul {
+    padding: 0;
+    margin: 20px 0;
+}
+
+.inList {
+    line-height: 35px;
+    width: 1200px;
+    height: 70px;
+    border:solid black 3px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3px;
+    border-radius: 20px;
+}
+
+.btnGroup {
+    display: flex;
+    flex-direction: row;
+    width: 390px;
+    justify-content: space-around;
+}
+
+.listBtn {
+    width: 100px;
+    height: 30px;
+    font-size: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .complete {
     text-decoration: line-through;
     color:red;

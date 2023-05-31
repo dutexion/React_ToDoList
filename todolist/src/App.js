@@ -1,17 +1,21 @@
-import React,{useState,useRef} from 'react';
+import React,{useState,useRef,useEffect} from 'react';
 import './App.css';
 import Input from './input';
 import TodoList from './todolist';
 
 function App() {
   const [text,newInput] = useState("");
-  const [list,setList] = useState([]);
+  const [list, setList] = useState(() => {
+    const storedList = window.localStorage.getItem("list");
+    return storedList ? JSON.parse(storedList) : [];
+  });
 
   const onChange = (e) => {
     newInput(e.target.value);
   }
-  
-  const nextId = useRef(0);
+
+  const nextId = useRef(list.length ? list[list.length-1].id+1 : 0);
+
   const onCreate = () => {
     if(text !== '')
     {
@@ -35,7 +39,7 @@ function App() {
   }
 
   const onModify = (id,inner) => {
-    if(inner !== '')
+    if(inner !== '' && inner !== null)
     {
       setList(list.map((value) => value.id === id ? {...value, value:inner}:value))
     }
@@ -44,6 +48,10 @@ function App() {
       alert("문자를 입력해주세요")
     }
   }
+
+  useEffect(() => {
+    window.localStorage.setItem("list",JSON.stringify(list));
+  }, [list])
 
   return (
     <div className="App">

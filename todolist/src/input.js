@@ -4,8 +4,11 @@ function Input({onChange,onCreate,text}) {
     return(
         <>
             <h1>ToDoList</h1>
-            <input onChange={onChange} value={text}/>
-            <button onClick={onCreate}>click me</button>
+            <div className="inputDiv">
+                <input className="input" onChange={onChange} value={text}/>
+                <button className="inputBtn" onClick={onCreate}>추가하기</button>
+            </div>
+            
         </>
     )
 }
