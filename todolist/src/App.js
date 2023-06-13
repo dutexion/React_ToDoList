@@ -1,51 +1,74 @@
 import React,{useState,useRef,useEffect} from 'react';
 import './App.css';
-import Input from './input';
-import TodoList from './todolist';
+import Input from './component/input';
+import TodoList from './component/todolist/todolist';
 
 function App() {
-  const [text,newInput] = useState("");
+  const [inputValue,setInputValue] = useState("");
   const [list, setList] = useState(() => {
     const storedList = window.localStorage.getItem("list");
     return storedList ? JSON.parse(storedList) : [];
   });
 
   const onChange = (e) => {
-    newInput(e.target.value);
+    setInputValue(e.target.value);
   }
 
-  const nextId = useRef(list.length ? list[list.length-1].id+1 : 0);
+  const nextId = useRef(list.length ? list[list.length-1].id + 1 : 0);
 
   const onCreate = () => {
-    if(text !== '')
+    if(inputValue === '')
     {
-      const newList = {id:nextId.current,value:text,active:false};
-      setList([...list,newList]);
-      newInput("");
-      nextId.current += 1;
+      alert("문자를 입력하세요");
+      return;
     }
-    else
-    {
-      alert("문자를 입력해주세요");
-    }
+
+    const newList = {
+      id: nextId.current,
+      value: inputValue,
+      complete: false
+    };
+
+    setList([...list,newList]);
+    setInputValue("");
+    nextId.current += 1;
   }
 
   const onRemove = id => {
-    setList(list.filter(value => value.id !== id));
+    const listFilter = list.filter(value => value.id !== id)
+
+    setList(listFilter);
   }
 
   const onComplete = id => {
-    setList(list.map(value => value.id === id ? {...value, active:!value.active}:value))
-  }
+    const listMap = list.map(value =>
+      value.id === id ?
+      toggleObjectInValue(value,"complete") : value
+    )
 
-  const onModify = (id,inner) => {
-    if(inner !== '' && inner !== null)
+    setList(listMap)
+  }
+  
+  const onModify = (id,inner,value) => {
+    if(inner === null) return;
+
+    if(inner !== '')
     {
-      setList(list.map((value) => value.id === id ? {...value, value:inner}:value))
+      setList(list.map((value) =>
+      value.id === id ? {...value, value:inner}:value
+      ))
     }
     else
     {
       alert("문자를 입력해주세요")
+      onModify(id,prompt("수정할 내용을 입력하세요",value),value)
+    }
+  }
+
+  const toggleObjectInValue = (object, currentValue) => {
+    return {
+      ...object,
+      [currentValue]: !object[currentValue]
     }
   }
 
@@ -55,8 +78,14 @@ function App() {
 
   return (
     <div className="App">
-      <Input onChange={onChange} onCreate={onCreate} text={text}/>
-      <TodoList prop={list} onRemove={onRemove} onComplete={onComplete} onModify={onModify}/>
+      <Input onChange={onChange}
+      onCreate={onCreate}
+      text={inputValue}/>
+
+      <TodoList prop={list}
+      onRemove={onRemove}
+      onComplete={onComplete}
+      onModify={onModify}/>
     </div>
   );
 }
