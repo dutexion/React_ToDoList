@@ -2,6 +2,7 @@ import React,{useState,useRef,useEffect} from 'react';
 import './App.css';
 import Input from './component/input';
 import TodoList from './component/todolist/todolist';
+import List from './component/todolist/list';
 
 function App() {
   const [inputValue,setInputValue] = useState("");
@@ -26,7 +27,7 @@ function App() {
     const newList = {
       id: nextId.current,
       value: inputValue,
-      complete: false
+      complete: 0
     };
 
     setList([...list,newList]);
@@ -34,16 +35,26 @@ function App() {
     nextId.current += 1;
   }
 
-  const onRemove = id => {
+  const onRemove = (id) => {
     const listFilter = list.filter(value => value.id !== id)
 
     setList(listFilter);
   }
 
-  const onComplete = id => {
-    const listMap = list.map(value =>
-      value.id === id ?
-      toggleObjectInValue(value,"complete") : value
+  const onComplete = (Id) => {
+    const listMap = list.map(Value =>
+      {
+        const {id,value,complete} = Value;
+        return(id === Id ? (complete === 2 ? {
+          id,
+          value,
+          complete:0
+        }:{
+          id,
+          value,
+          complete: complete+1
+        }):Value)
+      }
     )
 
     setList(listMap)
@@ -65,13 +76,6 @@ function App() {
     }
   }
 
-  const toggleObjectInValue = (object, currentValue) => {
-    return {
-      ...object,
-      [currentValue]: !object[currentValue]
-    }
-  }
-
   useEffect(() => {
     window.localStorage.setItem("list",JSON.stringify(list));
   }, [list])
@@ -81,11 +85,31 @@ function App() {
       <Input onChange={onChange}
       onCreate={onCreate}
       text={inputValue}/>
+      <div className="ulBox">
+        <ul className="inCompleteList">
+          {list.map((value)=>
+          (<List props={value} key={value.id}
+          onRemove={onRemove} onComplete={onComplete}
+          onModify={onModify} currentState="0"/>
+          ))}
+        </ul>
+      
+        <ul className="proceedingList">
+          {list.map((value)=>
+          (<List props={value} key={value.id}
+          onRemove={onRemove} onComplete={onComplete}
+          onModify={onModify} currentState="1"/>
+          ))}
+        </ul>
 
-      <TodoList prop={list}
-      onRemove={onRemove}
-      onComplete={onComplete}
-      onModify={onModify}/>
+        <ul className="completeList">
+          {list.map((value)=>
+          (<List props={value} key={value.id}
+          onRemove={onRemove} onComplete={onComplete}
+          onModify={onModify} currentState="2"/>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
